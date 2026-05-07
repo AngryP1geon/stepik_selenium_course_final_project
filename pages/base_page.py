@@ -18,17 +18,19 @@ class BasePage():
         link.click()
 
     def go_to_basket_page(self):
-        link = self.browser.find_element(*BasePageLocators.TO_BASKET_BUTTON)
+        link = self.browser.find_element(*BasePageLocators.GO_TO_BASKET_BUTTON)
         link.click()
 
     def should_be_login_link(self):
-        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), \
+            "Login link is not presented."
 
     def is_element_present(self, how, what):
         try:
             self.browser.find_element(how, what)
         except (NoSuchElementException):
             return False
+        
         return True
     
     def is_not_element_present(self, how, what, timeout=4):
@@ -36,6 +38,7 @@ class BasePage():
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return True
+        
         return False
     
     def is_disappeared(self, how, what, timeout=4):
@@ -44,6 +47,7 @@ class BasePage():
                 until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
+        
         return True
 
     def solve_quiz_and_get_code(self):
@@ -59,11 +63,12 @@ class BasePage():
                 print(f"Your code: {alert_text}")
                 alert.accept()
             except NoAlertPresentException:
-                print("No second alert presented")
+                print("No second alert presented.")
         except:
             return False
+        
         return True
     
     def should_be_authorized_user(self):
-        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
-                                                                 " probably unauthorised user"
+        assert self.is_element_present(*BasePageLocators.USER_ICON), \
+            "User icon is not presented, probably unauthorised user."
